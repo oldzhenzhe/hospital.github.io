@@ -67,6 +67,9 @@
         <li class="mb-2">
           <button onclick="showRecords()" class="w-full text-left p-2 bg-gray-700 rounded">掛號紀錄</button>
         </li>
+        <li class="mb-2">
+          <button onclick="showDoctors()" class="w-full text-left p-2 bg-gray-700 rounded">醫師介紹</button>
+        </li>
         <li>
           <button onclick="handleLogout()" class="w-full text-left p-2 bg-red-500 rounded">登出</button>
         </li>
@@ -179,6 +182,25 @@
           </thead>
           <tbody id="records-body"></tbody>
         </table>
+      </div>
+
+      <!-- 醫師介紹 -->
+      <div id="doctors-section" class="hidden">
+        <h1 class="text-2xl font-bold mb-4">醫師介紹</h1>
+        <div class="grid grid-cols-2 gap-4">
+          <!-- 張醫師 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">張醫師</h2>
+            <p><strong>專長：</strong>小兒內科、過敏與免疫</p>
+            <p><strong>簡介：</strong>張醫師擁有10年以上的兒科臨床經驗，專注於小兒過敏性疾病的診斷與治療，深受家長信賴。</p>
+          </div>
+          <!-- 李醫師 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">李醫師</h2>
+            <p><strong>專長：</strong>小兒神經科、新生兒照護</p>
+            <p><strong>簡介：</strong>李醫師畢業於頂尖醫學院，擅長新生兒重症照護及小兒神經發育問題，耐心細緻，備受好評。</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -299,10 +321,10 @@
     // 取消預約功能
     function cancelAppointment(index) {
       if (confirm('確定要取消此預約嗎？')) {
-        appointments[index].status = '已取消'; // 更新狀態為「已取消」
-        localStorage.setItem('appointments', JSON.stringify(appointments)); // 儲存更新
-        showRecords(); // 刷新掛號紀錄
-        updateCurrentCall(); // 刷新現在叫號
+        appointments[index].status = '已取消';
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+        showRecords();
+        updateCurrentCall();
         alert('預約已取消！');
       }
     }
@@ -320,6 +342,7 @@
       document.getElementById('home-content').classList.remove('hidden');
       document.getElementById('appointment-section').classList.add('hidden');
       document.getElementById('records-section').classList.add('hidden');
+      document.getElementById('doctors-section').classList.add('hidden');
       updateCurrentCall();
     }
 
@@ -328,6 +351,7 @@
       document.getElementById('home-content').classList.add('hidden');
       document.getElementById('appointment-section').classList.remove('hidden');
       document.getElementById('records-section').classList.add('hidden');
+      document.getElementById('doctors-section').classList.add('hidden');
     }
 
     // 顯示掛號紀錄
@@ -335,10 +359,11 @@
       document.getElementById('home-content').classList.add('hidden');
       document.getElementById('appointment-section').classList.add('hidden');
       document.getElementById('records-section').classList.remove('hidden');
+      document.getElementById('doctors-section').classList.add('hidden');
 
       // 更新掛號紀錄表格
       const recordsBody = document.getElementById('records-body');
-      recordsBody.innerHTML = ''; // 清空表格內容
+      recordsBody.innerHTML = '';
 
       const userAppointments = appointments.filter(appointment => appointment.username === currentUser.username);
       if (userAppointments.length === 0) {
@@ -360,6 +385,14 @@
           recordsBody.appendChild(row);
         });
       }
+    }
+
+    // 顯示醫師介紹
+    function showDoctors() {
+      document.getElementById('home-content').classList.add('hidden');
+      document.getElementById('appointment-section').classList.add('hidden');
+      document.getElementById('records-section').classList.add('hidden');
+      document.getElementById('doctors-section').classList.remove('hidden');
     }
   </script>
 </body>
