@@ -70,6 +70,9 @@
         <li class="mb-2">
           <button onclick="showDoctors()" class="w-full text-left p-2 bg-gray-700 rounded">醫師介紹</button>
         </li>
+        <li class="mb-2">
+          <button onclick="showProfile()" class="w-full text-left p-2 bg-gray-700 rounded">個人介面</button>
+        </li>
         <li>
           <button onclick="handleLogout()" class="w-full text-left p-2 bg-red-500 rounded">登出</button>
         </li>
@@ -120,8 +123,8 @@
           <!-- 診間 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">診間</h2>
-            <p>診間 1：張醫師（上午）</p>
-            <p>診間 2：李醫師（下午）</p>
+            <p>診間 1：張醫師（上午，剩餘名額：<span id="room1-quota">5</span>）</p>
+            <p>診間 2：李醫師（下午，剩餘名額：<span id="room2-quota">5</span>）</p>
           </div>
 
           <!-- 現在叫號 -->
@@ -188,18 +191,69 @@
       <div id="doctors-section" class="hidden">
         <h1 class="text-2xl font-bold mb-4">醫師介紹</h1>
         <div class="grid grid-cols-2 gap-4">
-          <!-- 張醫師 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">張醫師</h2>
             <p><strong>專長：</strong>小兒內科、過敏與免疫</p>
             <p><strong>簡介：</strong>張醫師擁有10年以上的兒科臨床經驗，專注於小兒過敏性疾病的診斷與治療，深受家長信賴。</p>
           </div>
-          <!-- 李醫師 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">李醫師</h2>
             <p><strong>專長：</strong>小兒神經科、新生兒照護</p>
             <p><strong>簡介：</strong>李醫師畢業於頂尖醫學院，擅長新生兒重症照護及小兒神經發育問題，耐心細緻，備受好評。</p>
           </div>
+        </div>
+      </div>
+
+      <!-- 個人介面 -->
+      <div id="profile-section" class="hidden">
+        <h1 class="text-2xl font-bold mb-4">個人介面</h1>
+        <div class="grid grid-cols-2 gap-4">
+          <!-- 基本資料 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">基本資料</h2>
+            <p><strong>用戶名：</strong><span id="profile-username"></span></p>
+            <p><strong>電話：</strong><span id="profile-phone"></span></p>
+            <button onclick="editProfile()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">編輯資料</button>
+          </div>
+
+          <!-- 病例 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">病例</h2>
+            <div id="medical-records">
+              <p>暫無病例記錄。</p>
+            </div>
+          </div>
+
+          <!-- 預約查詢 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">預約查詢</h2>
+            <table id="appointment-query-table" class="w-full text-sm border-collapse">
+              <thead>
+                <tr>
+                  <th class="border p-2">科別</th>
+                  <th class="border p-2">醫師</th>
+                  <th class="border p-2">日期</th>
+                  <th class="border p-2">時段</th>
+                  <th class="border p-2">狀態</th>
+                </tr>
+              </thead>
+              <tbody id="appointment-query-body"></tbody>
+            </table>
+          </div>
+
+          <!-- 設定 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">設定</h2>
+            <div class="mb-4">
+              <label class="block text-sm font-medium">更改密碼</label>
+              <input type="password" id="new-password" class="w-full p-2 border rounded" placeholder="輸入新密碼">
+            </div>
+            <button onclick="changePassword()" class="px-4 py-2 bg-blue-500 text-white rounded">儲存新密碼</button>
+          </div>
+        </div>
+        <!-- 登出按鈕 -->
+        <div class="mt-4">
+          <button onclick="handleLogout()" class="w-full bg-red-500 text-white p-2 rounded">登出</button>
         </div>
       </div>
     </div>
@@ -209,6 +263,13 @@
     let users = JSON.parse(localStorage.getItem('users')) || [];
     let currentUser = null;
     let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+
+    // 診間最大預約人數設定
+    const MAX_QUOTA_PER_ROOM = 5; // 每間診間最大預約人數
+    const rooms = {
+      '診間 1': { doctor: '張醫師', time: '上午', currentQuota: 0 },
+      '診間 2': { doctor: '李醫師', time: '下午', currentQuota: 0 }
+    };
 
     // 切換登錄/註冊表單
     document.getElementById('login-tab').addEventListener('click', () => {
@@ -257,10 +318,52 @@
         currentUser = user;
         document.getElementById('auth-page').classList.add('hidden');
         document.getElementById('home-page').classList.remove('hidden');
+        initializeQuotas(); // 初始化診間預約人數
         showHome();
       } else {
         alert('用戶名或密碼錯誤！');
       }
+    }
+
+    // 初始化診間預約人數
+    function initializeQuotas() {
+      // 重置診間預約人數
+      rooms['診間 1'].currentQuota = 0;
+      rooms['診間 2'].currentQuota = 0;
+
+      // 計算現有預約人數
+      appointments.forEach(appointment => {
+        if (appointment.status === '待審核') {
+          let roomKey = null;
+          if (appointment.doctor === '張醫師' && appointment.time === '上午') {
+            roomKey = '診間 1';
+          } else if (appointment.doctor === '李醫師' && appointment.time === '下午') {
+            roomKey = '診間 2';
+          }
+          if (roomKey && rooms[roomKey]) {
+            rooms[roomKey].currentQuota++;
+          }
+        }
+      });
+
+      // 更新首頁診間名額顯示
+      document.getElementById('room1-quota').textContent = MAX_QUOTA_PER_ROOM - rooms['診間 1'].currentQuota;
+      document.getElementById('room2-quota').textContent = MAX_QUOTA_PER_ROOM - rooms['診間 2'].currentQuota;
+    }
+
+    // 檢查診間預約人數是否已滿
+    function checkRoomQuota(doctor, time) {
+      let roomKey = null;
+      if (doctor === '張醫師' && time === '上午') {
+        roomKey = '診間 1';
+      } else if (doctor === '李醫師' && time === '下午') {
+        roomKey = '診間 2';
+      }
+
+      if (roomKey && rooms[roomKey].currentQuota >= MAX_QUOTA_PER_ROOM) {
+        return false; // 診間已滿
+      }
+      return true;
     }
 
     // 處理預約
@@ -271,6 +374,12 @@
       const time = document.getElementById('appointment-time').value;
 
       if (department && doctor && date && time) {
+        // 檢查診間預約人數
+        if (!checkRoomQuota(doctor, time)) {
+          alert('該診間預約人數已滿，請選擇其他醫師或時段！');
+          return;
+        }
+
         const appointment = { 
           username: currentUser.username, 
           department, 
@@ -283,6 +392,9 @@
         appointments.push(appointment);
         localStorage.setItem('appointments', JSON.stringify(appointments));
         alert(`預約成功！\n科別：${department}\n醫師：${doctor}\n日期：${date}\n時段：${time}\n叫號：${appointment.callNumber}`);
+        
+        // 更新診間預約人數
+        initializeQuotas();
         showRecords();
         updateCurrentCall();
       } else {
@@ -306,9 +418,13 @@
       const currentCallDiv = document.getElementById('current-call');
       if (pendingAppointments.length > 0) {
         const current = pendingAppointments[0];
+        let room = '診間 1';
+        if (current.doctor === '李醫師' && current.time === '下午') {
+          room = '診間 2';
+        }
         currentCallDiv.innerHTML = `
           <p class="text-2xl font-bold text-green-500">${current.callNumber}</p>
-          <p>診間：診間 1</p>
+          <p>診間：${room}</p>
         `;
       } else {
         currentCallDiv.innerHTML = `
@@ -323,6 +439,7 @@
       if (confirm('確定要取消此預約嗎？')) {
         appointments[index].status = '已取消';
         localStorage.setItem('appointments', JSON.stringify(appointments));
+        initializeQuotas(); // 更新診間預約人數
         showRecords();
         updateCurrentCall();
         alert('預約已取消！');
@@ -343,6 +460,8 @@
       document.getElementById('appointment-section').classList.add('hidden');
       document.getElementById('records-section').classList.add('hidden');
       document.getElementById('doctors-section').classList.add('hidden');
+      document.getElementById('profile-section').classList.add('hidden');
+      initializeQuotas();
       updateCurrentCall();
     }
 
@@ -352,6 +471,7 @@
       document.getElementById('appointment-section').classList.remove('hidden');
       document.getElementById('records-section').classList.add('hidden');
       document.getElementById('doctors-section').classList.add('hidden');
+      document.getElementById('profile-section').classList.add('hidden');
     }
 
     // 顯示掛號紀錄
@@ -360,8 +480,8 @@
       document.getElementById('appointment-section').classList.add('hidden');
       document.getElementById('records-section').classList.remove('hidden');
       document.getElementById('doctors-section').classList.add('hidden');
+      document.getElementById('profile-section').classList.add('hidden');
 
-      // 更新掛號紀錄表格
       const recordsBody = document.getElementById('records-body');
       recordsBody.innerHTML = '';
 
@@ -393,6 +513,67 @@
       document.getElementById('appointment-section').classList.add('hidden');
       document.getElementById('records-section').classList.add('hidden');
       document.getElementById('doctors-section').classList.remove('hidden');
+      document.getElementById('profile-section').classList.add('hidden');
+    }
+
+    // 顯示個人介面
+    function showProfile() {
+      document.getElementById('home-content').classList.add('hidden');
+      document.getElementById('appointment-section').classList.add('hidden');
+      document.getElementById('records-section').classList.add('hidden');
+      document.getElementById('doctors-section').classList.add('hidden');
+      document.getElementById('profile-section').classList.remove('hidden');
+
+      document.getElementById('profile-username').textContent = currentUser.username;
+      document.getElementById('profile-phone').textContent = currentUser.phone;
+
+      const appointmentQueryBody = document.getElementById('appointment-query-body');
+      appointmentQueryBody.innerHTML = '';
+
+      const userAppointments = appointments.filter(appointment => appointment.username === currentUser.username);
+      if (userAppointments.length === 0) {
+        appointmentQueryBody.innerHTML = '<tr><td colspan="5" class="border p-2 text-center">暫無預約記錄。</td></tr>';
+      } else {
+        userAppointments.forEach(appointment => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="border p-2">${appointment.department}</td>
+            <td class="border p-2">${appointment.doctor}</td>
+            <td class="border p-2">${appointment.date}</td>
+            <td class="border p-2">${appointment.time}</td>
+            <td class="border p-2">${appointment.status}</td>
+          `;
+          appointmentQueryBody.appendChild(row);
+        });
+      }
+    }
+
+    // 編輯個人資料
+    function editProfile() {
+      const newPhone = prompt('請輸入新的電話號碼：', currentUser.phone);
+      if (newPhone) {
+        const userIndex = users.findIndex(user => user.username === currentUser.username);
+        users[userIndex].phone = newPhone;
+        currentUser.phone = newPhone;
+        localStorage.setItem('users', JSON.stringify(users));
+        document.getElementById('profile-phone').textContent = newPhone;
+        alert('電話號碼已更新！');
+      }
+    }
+
+    // 更改密碼
+    function changePassword() {
+      const newPassword = document.getElementById('new-password').value;
+      if (newPassword) {
+        const userIndex = users.findIndex(user => user.username === currentUser.username);
+        users[userIndex].password = newPassword;
+        currentUser.password = newPassword;
+        localStorage.setItem('users', JSON.stringify(users));
+        document.getElementById('new-password').value = '';
+        alert('密碼已更新！請記住您的新密碼。');
+      } else {
+        alert('請輸入新密碼！');
+      }
     }
   </script>
 </body>
