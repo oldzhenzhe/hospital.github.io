@@ -1,1 +1,161 @@
-# -
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>兒科預約系統</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+  <h1 class="text-2xl font-bold text-center mb-6">兒科預約系統</h1>
+
+  <!-- 登錄/註冊切換 -->
+  <div id="auth-section" class="mb-6">
+    <div class="flex justify-around mb-4">
+      <button id="login-tab" class="px-4 py-2 bg-blue-500 text-white rounded">登錄</button>
+      <button id="register-tab" class="px-4 py-2 bg-gray-300 text-black rounded">註冊</button>
+    </div>
+
+    <!-- 登錄表單 -->
+    <div id="login-form">
+      <div class="mb-4">
+        <label class="block text-sm font-medium">用戶名</label>
+        <input type="text" id="login-username" class="w-full p-2 border rounded" placeholder="輸入用戶名">
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium">密碼</label>
+        <input type="password" id="login-password" class="w-full p-2 border rounded" placeholder="輸入密碼">
+      </div>
+      <button onclick="handleLogin()" class="w-full bg-blue-500 text-white p-2 rounded">登錄</button>
+    </div>
+
+    <!-- 註冊表單 -->
+    <div id="register-form" class="hidden">
+      <div class="mb-4">
+        <label class="block text-sm font-medium">用戶名</label>
+        <input type="text" id="register-username" class="w-full p-2 border rounded" placeholder="輸入用戶名">
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium">密碼</label>
+        <input type="password" id="register-password" class="w-full p-2 border rounded" placeholder="輸入密碼">
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium">聯繫電話</label>
+        <input type="text" id="register-phone" class="w-full p-2 border rounded" placeholder="輸入電話">
+      </div>
+      <button onclick="handleRegister()" class="w-full bg-blue-500 text-white p-2 rounded">註冊</button>
+    </div>
+  </div>
+
+  <!-- 預約表單（登錄後顯示） -->
+  <div id="appointment-section" class="hidden">
+    <div class="mb-4">
+      <label class="block text-sm font-medium">選擇科別</label>
+      <select id="department" class="w-full p-2 border rounded">
+        <option value="兒科">兒科</option>
+      </select>
+    </div>
+    <div class="mb-4">
+      <label class="block text-sm font-medium">選擇醫師</label>
+      <select id="doctor" class="w-full p-2 border rounded">
+        <option value="張醫師">張醫師</option>
+        <option value="李醫師">李醫師</option>
+      </select>
+    </div>
+    <div class="mb-4">
+      <label class="block text-sm font-medium">預約日期</label>
+      <input type="date" id="appointment-date" class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+      <label class="block text-sm font-medium">預約時段</label>
+      <select id="appointment-time" class="w-full p-2 border rounded">
+        <option value="上午">上午</option>
+        <option value="下午">下午</option>
+      </select>
+    </div>
+    <button onclick="handleAppointment()" class="w-full bg-green-500 text-white p-2 rounded">提交預約</button>
+    <button onclick="handleLogout()" class="w-full bg-red-500 text-white p-2 rounded mt-2">登出</button>
+  </div>
+</div>
+
+<script>
+  let users = JSON.parse(localStorage.getItem('users')) || [];
+  let currentUser = null;
+
+  // 切換登錄/註冊表單
+  document.getElementById('login-tab').addEventListener('click', () => {
+    document.getElementById('login-form').classList.remove('hidden');
+    document.getElementById('register-form').classList.add('hidden');
+    document.getElementById('login-tab').classList.add('bg-blue-500', 'text-white');
+    document.getElementById('register-tab').classList.remove('bg-blue-500', 'text-white');
+    document.getElementById('register-tab').classList.add('bg-gray-300', 'text-black');
+  });
+
+  document.getElementById('register-tab').addEventListener('click', () => {
+    document.getElementById('register-form').classList.remove('hidden');
+    document.getElementById('login-form').classList.add('hidden');
+    document.getElementById('register-tab').classList.add('bg-blue-500', 'text-white');
+    document.getElementById('login-tab').classList.remove('bg-blue-500', 'text-white');
+    document.getElementById('login-tab').classList.add('bg-gray-300', 'text-black');
+  });
+
+  // 處理註冊
+  function handleRegister() {
+    const username = document.getElementById('register-username').value;
+    const password = document.getElementById('register-password').value;
+    const phone = document.getElementById('register-phone').value;
+
+    if (username && password && phone) {
+      if (users.find(user => user.username === username)) {
+        alert('用戶名已存在！');
+        return;
+      }
+      users.push({ username, password, phone });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('註冊成功！請登錄。');
+      document.getElementById('login-tab').click();
+    } else {
+      alert('請填寫所有欄位！');
+    }
+  }
+
+  // 處理登錄
+  function handleLogin() {
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+
+    const user = users.find(user => user.username === username && user.password === password);
+    if (user) {
+      currentUser = user;
+      document.getElementById('auth-section').classList.add('hidden');
+      document.getElementById('appointment-section').classList.remove('hidden');
+    } else {
+      alert('用戶名或密碼錯誤！');
+    }
+  }
+
+  // 處理預約
+  function handleAppointment() {
+    const department = document.getElementById('department').value;
+    const doctor = document.getElementById('doctor').value;
+    const date = document.getElementById('appointment-date').value;
+    const time = document.getElementById('appointment-time').value;
+
+    if (department && doctor && date && time) {
+      alert(`預約成功！\n科別：${department}\n醫師：${doctor}\n日期：${date}\n時段：${time}`);
+    } else {
+      alert('請填寫所有欄位！');
+    }
+  }
+
+  // 處理登出
+  function handleLogout() {
+    currentUser = null;
+    document.getElementById('auth-section').classList.remove('hidden');
+    document.getElementById('appointment-section').classList.add('hidden');
+    document.getElementById('login-tab').click();
+  }
+</script>
+</body>
+</html>
