@@ -6,16 +6,13 @@
   <title>兒科預約系統</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* 確保手機上表格可橫向滾動 */
     .table-scroll {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
-    /* 隱藏滾動條但保留滾動功能 */
     .table-scroll::-webkit-scrollbar {
       display: none;
     }
-    /* 漢堡選單動畫 */
     #menu-toggle:checked ~ #nav-menu {
       display: block;
     }
@@ -27,14 +24,12 @@
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
       <h1 class="text-2xl font-bold text-center mb-6">兒科預約系統</h1>
 
-      <!-- 登錄/註冊切換 -->
       <div id="auth-section" class="mb-6">
         <div class="flex justify-around mb-4">
           <button id="login-tab" class="px-4 py-2 bg-blue-500 text-white rounded text-lg">登錄</button>
           <button id="register-tab" class="px-4 py-2 bg-gray-300 text-black rounded text-lg">註冊</button>
         </div>
 
-        <!-- 登錄表單 -->
         <div id="login-form">
           <div class="mb-4">
             <label class="block text-sm font-medium">用戶名</label>
@@ -47,7 +42,6 @@
           <button onclick="handleLogin()" class="w-full bg-blue-500 text-white p-3 rounded text-lg">登錄</button>
         </div>
 
-        <!-- 註冊表單 -->
         <div id="register-form" class="hidden">
           <div class="mb-4">
             <label class="block text-sm font-medium">用戶名</label>
@@ -69,6 +63,18 @@
             <label class="block text-sm font-medium">健保卡號</label>
             <input type="text" id="register-healthcard" class="w-full p-3 border rounded text-lg" placeholder="輸入12位數字">
           </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium">身高 (公分)</label>
+            <input type="number" id="register-height" class="w-full p-3 border rounded text-lg" placeholder="輸入身高">
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium">體重 (公斤)</label>
+            <input type="number" id="register-weight" class="w-full p-3 border rounded text-lg" placeholder="輸入體重">
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium">出生年月日</label>
+            <input type="date" id="register-birthdate" class="w-full p-3 border rounded text-lg">
+          </div>
           <button onclick="handleRegister()" class="w-full bg-blue-500 text-white p-3 rounded text-lg">註冊</button>
         </div>
       </div>
@@ -77,9 +83,7 @@
 
   <!-- 首頁（登錄後顯示） -->
   <div id="home-page" class="hidden min-h-screen flex flex-col md:flex-row">
-    <!-- 左側導航欄（手機上為漢堡選單） -->
     <div class="bg-gray-800 text-white md:w-1/5 p-4">
-      <!-- 漢堡選單按鈕（僅手機顯示） -->
       <div class="md:hidden flex items-center justify-between">
         <h2 class="text-lg font-bold">掛號系統</h2>
         <label for="menu-toggle" class="cursor-pointer">
@@ -111,13 +115,10 @@
       </ul>
     </div>
 
-    <!-- 右側主內容區域 -->
     <div class="flex-1 p-4 md:p-8 overflow-y-auto">
-      <!-- 首頁內容 -->
       <div id="home-content">
         <h1 class="text-2xl font-bold mb-4">首頁</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- 醫生班表 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">醫生班表</h2>
             <div class="table-scroll">
@@ -145,7 +146,6 @@
             </div>
           </div>
 
-          <!-- 公告 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">公告</h2>
             <ul class="list-disc pl-4">
@@ -154,14 +154,12 @@
             </ul>
           </div>
 
-          <!-- 診間 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">診間</h2>
             <p>診間 1：張醫師（上午，剩餘名額：<span id="room1-quota">5</span>）</p>
             <p>診間 2：李醫師（下午，剩餘名額：<span id="room2-quota">5</span>）</p>
           </div>
 
-          <!-- 現在叫號 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">現在叫號</h2>
             <div id="current-call">
@@ -172,7 +170,6 @@
         </div>
       </div>
 
-      <!-- 預約表單 -->
       <div id="appointment-section" class="hidden">
         <h1 class="text-2xl font-bold mb-4">預約掛號</h1>
         <div class="mb-4">
@@ -202,7 +199,6 @@
         <button onclick="handleAppointment()" class="w-full bg-green-500 text-white p-3 rounded text-lg">提交預約</button>
       </div>
 
-      <!-- 掛號紀錄 -->
       <div id="records-section" class="hidden">
         <h1 class="text-2xl font-bold mb-4">掛號紀錄</h1>
         <div class="table-scroll">
@@ -223,7 +219,6 @@
         </div>
       </div>
 
-      <!-- 醫師介紹 -->
       <div id="doctors-section" class="hidden">
         <h1 class="text-2xl font-bold mb-4">醫師介紹</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -240,21 +235,21 @@
         </div>
       </div>
 
-      <!-- 個人介面 -->
       <div id="profile-section" class="hidden">
         <h1 class="text-2xl font-bold mb-4">個人介面</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- 基本資料 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">基本資料</h2>
             <p><strong>用戶名：</strong><span id="profile-username"></span></p>
             <p><strong>電話：</strong><span id="profile-phone"></span></p>
             <p><strong>身分證字號：</strong><span id="profile-idnumber"></span></p>
             <p><strong>健保卡號：</strong><span id="profile-healthcard"></span></p>
-            <button onclick="editProfile()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded text-lg">編輯資料</button>
+            <p><strong>身高 (公分)：</strong><span id="profile-height"></span></p>
+            <p><strong>體重 (公斤)：</strong><span id="profile-weight"></span></p>
+            <p><strong>出生年月日：</strong><span id="profile-birthdate"></span></p>
+            <button onclick="showEditProfileForm()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded text-lg">編輯資料</button>
           </div>
 
-          <!-- 病例 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">病例</h2>
             <div id="medical-records">
@@ -262,7 +257,6 @@
             </div>
           </div>
 
-          <!-- 預約查詢 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">預約查詢</h2>
             <div class="table-scroll">
@@ -281,7 +275,6 @@
             </div>
           </div>
 
-          <!-- 設定 -->
           <div class="bg-white p-4 rounded-lg shadow">
             <h2 class="text-lg font-bold mb-2">設定</h2>
             <div class="mb-4">
@@ -291,7 +284,6 @@
             <button onclick="changePassword()" class="px-4 py-2 bg-blue-500 text-white rounded text-lg">儲存新密碼</button>
           </div>
         </div>
-        <!-- 登出按鈕 -->
         <div class="mt-4">
           <button onclick="handleLogout()" class="w-full bg-red-500 text-white p-3 rounded text-lg">登出</button>
         </div>
@@ -304,14 +296,12 @@
     let currentUser = null;
     let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
 
-    // 診間最大預約人數設定
     const MAX_QUOTA_PER_ROOM = 5;
     const rooms = {
       '診間 1': { doctor: '張醫師', time: '上午', currentQuota: 0 },
       '診間 2': { doctor: '李醫師', time: '下午', currentQuota: 0 }
     };
 
-    // 切換登錄/註冊表單
     document.getElementById('login-tab').addEventListener('click', () => {
       document.getElementById('login-form').classList.remove('hidden');
       document.getElementById('register-form').classList.add('hidden');
@@ -328,27 +318,43 @@
       document.getElementById('login-tab').classList.add('bg-gray-300', 'text-black');
     });
 
-    // 驗證身分證字號
     function validateIdNumber(idNumber) {
       const idPattern = /^[A-Z][0-9]{9}$/;
       return idPattern.test(idNumber);
     }
 
-    // 驗證健保卡號
     function validateHealthCard(healthCard) {
       const healthCardPattern = /^[0-9]{12}$/;
       return healthCardPattern.test(healthCard);
     }
 
-    // 處理註冊
+    function validateHeight(height) {
+      const h = parseFloat(height);
+      return !isNaN(h) && h > 0 && h <= 300; // 身高應為正數且不超過300公分
+    }
+
+    function validateWeight(weight) {
+      const w = parseFloat(weight);
+      return !isNaN(w) && w > 0 && w <= 500; // 體重應為正數且不超過500公斤
+    }
+
+    function validateBirthdate(birthdate) {
+      const date = new Date(birthdate);
+      const now = new Date();
+      return date instanceof Date && !isNaN(date) && date <= now; // 日期應有效且不晚於當前日期
+    }
+
     function handleRegister() {
       const username = document.getElementById('register-username').value;
       const password = document.getElementById('register-password').value;
       const phone = document.getElementById('register-phone').value;
       const idNumber = document.getElementById('register-idnumber').value;
       const healthCard = document.getElementById('register-healthcard').value;
+      const height = document.getElementById('register-height').value;
+      const weight = document.getElementById('register-weight').value;
+      const birthdate = document.getElementById('register-birthdate').value;
 
-      if (username && password && phone && idNumber && healthCard) {
+      if (username && password && phone && idNumber && healthCard && height && weight && birthdate) {
         if (!validateIdNumber(idNumber)) {
           alert('身分證字號格式錯誤！請輸入正確格式（例如：A123456789）');
           return;
@@ -356,6 +362,21 @@
 
         if (!validateHealthCard(healthCard)) {
           alert('健保卡號格式錯誤！請輸入12位數字。');
+          return;
+        }
+
+        if (!validateHeight(height)) {
+          alert('身高應為正數且不超過300公分！');
+          return;
+        }
+
+        if (!validateWeight(weight)) {
+          alert('體重應為正數且不超過500公斤！');
+          return;
+        }
+
+        if (!validateBirthdate(birthdate)) {
+          alert('出生年月日無效或晚於當前日期！');
           return;
         }
 
@@ -374,7 +395,7 @@
           return;
         }
 
-        users.push({ username, password, phone, idNumber, healthCard });
+        users.push({ username, password, phone, idNumber, healthCard, height, weight, birthdate });
         localStorage.setItem('users', JSON.stringify(users));
         alert('註冊成功！請登錄。');
         document.getElementById('login-tab').click();
@@ -383,7 +404,6 @@
       }
     }
 
-    // 處理登錄
     function handleLogin() {
       const username = document.getElementById('login-username').value;
       const password = document.getElementById('login-password').value;
@@ -400,7 +420,6 @@
       }
     }
 
-    // 初始化診間預約人數
     function initializeQuotas() {
       rooms['診間 1'].currentQuota = 0;
       rooms['診間 2'].currentQuota = 0;
@@ -423,7 +442,6 @@
       document.getElementById('room2-quota').textContent = MAX_QUOTA_PER_ROOM - rooms['診間 2'].currentQuota;
     }
 
-    // 檢查診間預約人數是否已滿
     function checkRoomQuota(doctor, time) {
       let roomKey = null;
       if (doctor === '張醫師' && time === '上午') {
@@ -438,7 +456,6 @@
       return true;
     }
 
-    // 處理預約
     function handleAppointment() {
       const department = document.getElementById('department').value;
       const doctor = document.getElementById('doctor').value;
@@ -472,7 +489,6 @@
       }
     }
 
-    // 生成簡單的叫號
     function generateCallNumber() {
       const lastAppointment = appointments[appointments.length - 1];
       if (!lastAppointment || !lastAppointment.callNumber) {
@@ -482,7 +498,6 @@
       return `A${lastNumber.toString().padStart(3, '0')}`;
     }
 
-    // 更新現在叫號
     function updateCurrentCall() {
       const pendingAppointments = appointments.filter(appointment => appointment.status === '待審核');
       const currentCallDiv = document.getElementById('current-call');
@@ -504,7 +519,6 @@
       }
     }
 
-    // 取消預約功能
     function cancelAppointment(index) {
       if (confirm('確定要取消此預約嗎？')) {
         appointments[index].status = '已取消';
@@ -516,7 +530,6 @@
       }
     }
 
-    // 處理登出
     function handleLogout() {
       currentUser = null;
       document.getElementById('auth-page').classList.remove('hidden');
@@ -524,7 +537,6 @@
       document.getElementById('login-tab').click();
     }
 
-    // 顯示首頁
     function showHome() {
       document.getElementById('home-content').classList.remove('hidden');
       document.getElementById('appointment-section').classList.add('hidden');
@@ -533,11 +545,9 @@
       document.getElementById('profile-section').classList.add('hidden');
       initializeQuotas();
       updateCurrentCall();
-      // 手機上關閉選單
       document.getElementById('menu-toggle').checked = false;
     }
 
-    // 顯示預約表單
     function showAppointment() {
       document.getElementById('home-content').classList.add('hidden');
       document.getElementById('appointment-section').classList.remove('hidden');
@@ -547,7 +557,6 @@
       document.getElementById('menu-toggle').checked = false;
     }
 
-    // 顯示掛號紀錄
     function showRecords() {
       document.getElementById('home-content').classList.add('hidden');
       document.getElementById('appointment-section').classList.add('hidden');
@@ -581,7 +590,6 @@
       document.getElementById('menu-toggle').checked = false;
     }
 
-    // 顯示醫師介紹
     function showDoctors() {
       document.getElementById('home-content').classList.add('hidden');
       document.getElementById('appointment-section').classList.add('hidden');
@@ -591,19 +599,13 @@
       document.getElementById('menu-toggle').checked = false;
     }
 
-    // 顯示個人介面
     function showProfile() {
       document.getElementById('home-content').classList.add('hidden');
       document.getElementById('appointment-section').classList.add('hidden');
       document.getElementById('records-section').classList.add('hidden');
       document.getElementById('doctors-section').classList.add('hidden');
       document.getElementById('profile-section').classList.remove('hidden');
-
-      document.getElementById('profile-username').textContent = currentUser.username;
-      document.getElementById('profile-phone').textContent = currentUser.phone;
-      document.getElementById('profile-idnumber').textContent = currentUser.idNumber;
-      document.getElementById('profile-healthcard').textContent = currentUser.healthCard;
-
+      updateProfileDisplay();
       const appointmentQueryBody = document.getElementById('appointment-query-body');
       appointmentQueryBody.innerHTML = '';
 
@@ -626,20 +628,155 @@
       document.getElementById('menu-toggle').checked = false;
     }
 
-    // 編輯個人資料
-    function editProfile() {
-      const newPhone = prompt('請輸入新的電話號碼：', currentUser.phone);
-      if (newPhone) {
-        const userIndex = users.findIndex(user => user.username === currentUser.username);
-        users[userIndex].phone = newPhone;
-        currentUser.phone = newPhone;
-        localStorage.setItem('users', JSON.stringify(users));
-        document.getElementById('profile-phone').textContent = newPhone;
-        alert('電話號碼已更新！');
+    function updateProfileDisplay() {
+      document.getElementById('profile-username').textContent = currentUser.username;
+      document.getElementById('profile-phone').textContent = currentUser.phone;
+      document.getElementById('profile-idnumber').textContent = currentUser.idNumber;
+      document.getElementById('profile-healthcard').textContent = currentUser.healthCard;
+      document.getElementById('profile-height').textContent = currentUser.height;
+      document.getElementById('profile-weight').textContent = currentUser.weight;
+      document.getElementById('profile-birthdate').textContent = currentUser.birthdate;
+    }
+
+    function showEditProfileForm() {
+      const formHTML = `
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-xl font-bold mb-4">編輯基本資料</h2>
+            <div class="mb-4">
+              <label class="block text-sm font-medium">用戶名</label>
+              <input type="text" id="edit-username" class="w-full p-3 border rounded text-lg" value="${currentUser.username}">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium">電話</label>
+              <input type="text" id="edit-phone" class="w-full p-3 border rounded text-lg" value="${currentUser.phone}">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium">身分證字號</label>
+              <input type="text" id="edit-idnumber" class="w-full p-3 border rounded text-lg" value="${currentUser.idNumber}">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium">健保卡號</label>
+              <input type="text" id="edit-healthcard" class="w-full p-3 border rounded text-lg" value="${currentUser.healthCard}">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium">身高 (公分)</label>
+              <input type="number" id="edit-height" class="w-full p-3 border rounded text-lg" value="${currentUser.height}">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium">體重 (公斤)</label>
+              <input type="number" id="edit-weight" class="w-full p-3 border rounded text-lg" value="${currentUser.weight}">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium">出生年月日</label>
+              <input type="date" id="edit-birthdate" class="w-full p-3 border rounded text-lg" value="${currentUser.birthdate}">
+            </div>
+            <div class="flex justify-end space-x-2">
+              <button onclick="saveProfileChanges()" class="px-4 py-2 bg-blue-500 text-white rounded text-lg">儲存</button>
+              <button onclick="closeEditProfileForm()" class="px-4 py-2 bg-gray-300 text-black rounded text-lg">取消</button>
+            </div>
+          </div>
+        </div>
+      `;
+      const formContainer = document.createElement('div');
+      formContainer.id = 'edit-profile-form';
+      formContainer.innerHTML = formHTML;
+      document.body.appendChild(formContainer);
+    }
+
+    function closeEditProfileForm() {
+      const formContainer = document.getElementById('edit-profile-form');
+      if (formContainer) {
+        formContainer.remove();
       }
     }
 
-    // 更改密碼
+    function saveProfileChanges() {
+      const newUsername = document.getElementById('edit-username').value;
+      const newPhone = document.getElementById('edit-phone').value;
+      const newIdNumber = document.getElementById('edit-idnumber').value;
+      const newHealthCard = document.getElementById('edit-healthcard').value;
+      const newHeight = document.getElementById('edit-height').value;
+      const newWeight = document.getElementById('edit-weight').value;
+      const newBirthdate = document.getElementById('edit-birthdate').value;
+
+      if (newUsername && newPhone && newIdNumber && newHealthCard && newHeight && newWeight && newBirthdate) {
+        if (!validateIdNumber(newIdNumber)) {
+          alert('身分證字號格式錯誤！請輸入正確格式（例如：A123456789）');
+          return;
+        }
+
+        if (!validateHealthCard(newHealthCard)) {
+          alert('健保卡號格式錯誤！請輸入12位數字。');
+          return;
+        }
+
+        if (!validateHeight(newHeight)) {
+          alert('身高應為正數且不超過300公分！');
+          return;
+        }
+
+        if (!validateWeight(newWeight)) {
+          alert('體重應為正數且不超過500公斤！');
+          return;
+        }
+
+        if (!validateBirthdate(newBirthdate)) {
+          alert('出生年月日無效或晚於當前日期！');
+          return;
+        }
+
+        const otherUsers = users.filter(user => user.username !== currentUser.username);
+        if (otherUsers.find(user => user.username === newUsername)) {
+          alert('用戶名已存在！');
+          return;
+        }
+
+        if (otherUsers.find(user => user.idNumber === newIdNumber)) {
+          alert('此身分證字號已被使用！');
+          return;
+        }
+
+        if (otherUsers.find(user => user.healthCard === newHealthCard)) {
+          alert('此健保卡號已被使用！');
+          return;
+        }
+
+        const userIndex = users.findIndex(user => user.username === currentUser.username);
+        const oldUsername = currentUser.username;
+
+        users[userIndex].username = newUsername;
+        users[userIndex].phone = newPhone;
+        users[userIndex].idNumber = newIdNumber;
+        users[userIndex].healthCard = newHealthCard;
+        users[userIndex].height = newHeight;
+        users[userIndex].weight = newWeight;
+        users[userIndex].birthdate = newBirthdate;
+
+        currentUser.username = newUsername;
+        currentUser.phone = newPhone;
+        currentUser.idNumber = newIdNumber;
+        currentUser.healthCard = newHealthCard;
+        currentUser.height = newHeight;
+        currentUser.weight = newWeight;
+        currentUser.birthdate = newBirthdate;
+
+        appointments.forEach(appointment => {
+          if (appointment.username === oldUsername) {
+            appointment.username = newUsername;
+          }
+        });
+
+        localStorage.setItem('users', JSON.stringify(users));
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+        closeEditProfileForm();
+        updateProfileDisplay();
+        alert('資料已更新！');
+      } else {
+        alert('請填寫所有欄位！');
+      }
+    }
+
     function changePassword() {
       const newPassword = document.getElementById('new-password').value;
       if (newPassword) {
