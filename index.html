@@ -6,156 +6,361 @@
   <title>兒科預約系統</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-<div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-  <h1 class="text-2xl font-bold text-center mb-6">兒科預約系統</h1>
+<body class="bg-gray-100 min-h-screen">
+  <!-- 登錄/註冊頁面 -->
+  <div id="auth-page" class="flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <h1 class="text-2xl font-bold text-center mb-6">兒科預約系統</h1>
 
-  <!-- 登錄/註冊切換 -->
-  <div id="auth-section" class="mb-6">
-    <div class="flex justify-around mb-4">
-      <button id="login-tab" class="px-4 py-2 bg-blue-500 text-white rounded">登錄</button>
-      <button id="register-tab" class="px-4 py-2 bg-gray-300 text-black rounded">註冊</button>
-    </div>
+      <!-- 登錄/註冊切換 -->
+      <div id="auth-section" class="mb-6">
+        <div class="flex justify-around mb-4">
+          <button id="login-tab" class="px-4 py-2 bg-blue-500 text-white rounded">登錄</button>
+          <button id="register-tab" class="px-4 py-2 bg-gray-300 text-black rounded">註冊</button>
+        </div>
 
-    <!-- 登錄表單 -->
-    <div id="login-form">
-      <div class="mb-4">
-        <label class="block text-sm font-medium">用戶名</label>
-        <input type="text" id="login-username" class="w-full p-2 border rounded" placeholder="輸入用戶名">
-      </div>
-      <div class="mb-4">
-        <label class="block text-sm font-medium">密碼</label>
-        <input type="password" id="login-password" class="w-full p-2 border rounded" placeholder="輸入密碼">
-      </div>
-      <button onclick="handleLogin()" class="w-full bg-blue-500 text-white p-2 rounded">登錄</button>
-    </div>
+        <!-- 登錄表單 -->
+        <div id="login-form">
+          <div class="mb-4">
+            <label class="block text-sm font-medium">用戶名</label>
+            <input type="text" id="login-username" class="w-full p-2 border rounded" placeholder="輸入用戶名">
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium">密碼</label>
+            <input type="password" id="login-password" class="w-full p-2 border rounded" placeholder="輸入密碼">
+          </div>
+          <button onclick="handleLogin()" class="w-full bg-blue-500 text-white p-2 rounded">登錄</button>
+        </div>
 
-    <!-- 註冊表單 -->
-    <div id="register-form" class="hidden">
-      <div class="mb-4">
-        <label class="block text-sm font-medium">用戶名</label>
-        <input type="text" id="register-username" class="w-full p-2 border rounded" placeholder="輸入用戶名">
+        <!-- 註冊表單 -->
+        <div id="register-form" class="hidden">
+          <div class="mb-4">
+            <label class="block text-sm font-medium">用戶名</label>
+            <input type="text" id="register-username" class="w-full p-2 border rounded" placeholder="輸入用戶名">
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium">密碼</label>
+            <input type="password" id="register-password" class="w-full p-2 border rounded" placeholder="輸入密碼">
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium">聯繫電話</label>
+            <input type="text" id="register-phone" class="w-full p-2 border rounded" placeholder="輸入電話">
+          </div>
+          <button onclick="handleRegister()" class="w-full bg-blue-500 text-white p-2 rounded">註冊</button>
+        </div>
       </div>
-      <div class="mb-4">
-        <label class="block text-sm font-medium">密碼</label>
-        <input type="password" id="register-password" class="w-full p-2 border rounded" placeholder="輸入密碼">
-      </div>
-      <div class="mb-4">
-        <label class="block text-sm font-medium">聯繫電話</label>
-        <input type="text" id="register-phone" class="w-full p-2 border rounded" placeholder="輸入電話">
-      </div>
-      <button onclick="handleRegister()" class="w-full bg-blue-500 text-white p-2 rounded">註冊</button>
     </div>
   </div>
 
-  <!-- 預約表單（登錄後顯示） -->
-  <div id="appointment-section" class="hidden">
-    <div class="mb-4">
-      <label class="block text-sm font-medium">選擇科別</label>
-      <select id="department" class="w-full p-2 border rounded">
-        <option value="兒科">兒科</option>
-      </select>
+  <!-- 首頁（登錄後顯示） -->
+  <div id="home-page" class="hidden min-h-screen flex">
+    <!-- 左側導航欄 -->
+    <div class="w-1/5 bg-gray-800 text-white p-4">
+      <h2 class="text-lg font-bold mb-4">掛號系統</h2>
+      <ul>
+        <li class="mb-2">
+          <button onclick="showHome()" class="w-full text-left p-2 bg-gray-700 rounded">首頁</button>
+        </li>
+        <li class="mb-2">
+          <button onclick="showAppointment()" class="w-full text-left p-2 bg-gray-700 rounded">預約掛號</button>
+        </li>
+        <li class="mb-2">
+          <button onclick="showRecords()" class="w-full text-left p-2 bg-gray-700 rounded">掛號紀錄</button>
+        </li>
+        <li>
+          <button onclick="handleLogout()" class="w-full text-left p-2 bg-red-500 rounded">登出</button>
+        </li>
+      </ul>
     </div>
-    <div class="mb-4">
-      <label class="block text-sm font-medium">選擇醫師</label>
-      <select id="doctor" class="w-full p-2 border rounded">
-        <option value="張醫師">張醫師</option>
-        <option value="李醫師">李醫師</option>
-      </select>
+
+    <!-- 右側主內容區域 -->
+    <div class="w-4/5 p-8">
+      <!-- 首頁內容 -->
+      <div id="home-content">
+        <h1 class="text-2xl font-bold mb-4">首頁</h1>
+        <div class="grid grid-cols-2 gap-4">
+          <!-- 醫生班表 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">醫生班表</h2>
+            <table class="w-full text-sm">
+              <thead>
+                <tr>
+                  <th class="border p-2">醫師</th>
+                  <th class="border p-2">日期</th>
+                  <th class="border p-2">時段</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border p-2">張醫師</td>
+                  <td class="border p-2">2025-04-20</td>
+                  <td class="border p-2">上午</td>
+                </tr>
+                <tr>
+                  <td class="border p-2">李醫師</td>
+                  <td class="border p-2">2025-04-20</td>
+                  <td class="border p-2">下午</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 公告 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">公告</h2>
+            <ul class="list-disc pl-4">
+              <li>2025-04-19：系統維護，預約功能暫停。</li>
+              <li>2025-04-18：新增醫師班表查詢功能。</li>
+            </ul>
+          </div>
+
+          <!-- 診間 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">診間</h2>
+            <p>診間 1：張醫師（上午）</p>
+            <p>診間 2：李醫師（下午）</p>
+          </div>
+
+          <!-- 現在叫號 -->
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-bold mb-2">現在叫號</h2>
+            <div id="current-call">
+              <p class="text-2xl font-bold text-green-500">A001</p>
+              <p>診間：診間 1</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 預約表單 -->
+      <div id="appointment-section" class="hidden">
+        <h1 class="text-2xl font-bold mb-4">預約掛號</h1>
+        <div class="mb-4">
+          <label class="block text-sm font-medium">選擇科別</label>
+          <select id="department" class="w-full p-2 border rounded">
+            <option value="兒科">兒科</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium">選擇醫師</label>
+          <select id="doctor" class="w-full p-2 border rounded">
+            <option value="張醫師">張醫師</option>
+            <option value="李醫師">李醫師</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium">預約日期</label>
+          <input type="date" id="appointment-date" class="w-full p-2 border rounded">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium">預約時段</label>
+          <select id="appointment-time" class="w-full p-2 border rounded">
+            <option value="上午">上午</option>
+            <option value="下午">下午</option>
+          </select>
+        </div>
+        <button onclick="handleAppointment()" class="w-full bg-green-500 text-white p-2 rounded">提交預約</button>
+      </div>
+
+      <!-- 掛號紀錄 -->
+      <div id="records-section" class="hidden">
+        <h1 class="text-2xl font-bold mb-4">掛號紀錄</h1>
+        <table id="records-table" class="w-full text-sm border-collapse">
+          <thead>
+            <tr>
+              <th class="border p-2">用戶名</th>
+              <th class="border p-2">科別</th>
+              <th class="border p-2">醫師</th>
+              <th class="border p-2">日期</th>
+              <th class="border p-2">時段</th>
+              <th class="border p-2">狀態</th>
+              <th class="border p-2">操作</th>
+            </tr>
+          </thead>
+          <tbody id="records-body"></tbody>
+        </table>
+      </div>
     </div>
-    <div class="mb-4">
-      <label class="block text-sm font-medium">預約日期</label>
-      <input type="date" id="appointment-date" class="w-full p-2 border rounded">
-    </div>
-    <div class="mb-4">
-      <label class="block text-sm font-medium">預約時段</label>
-      <select id="appointment-time" class="w-full p-2 border rounded">
-        <option value="上午">上午</option>
-        <option value="下午">下午</option>
-      </select>
-    </div>
-    <button onclick="handleAppointment()" class="w-full bg-green-500 text-white p-2 rounded">提交預約</button>
-    <button onclick="handleLogout()" class="w-full bg-red-500 text-white p-2 rounded mt-2">登出</button>
   </div>
-</div>
 
-<script>
-  let users = JSON.parse(localStorage.getItem('users')) || [];
-  let currentUser = null;
+  <script>
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let currentUser = null;
+    let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
 
-  // 切換登錄/註冊表單
-  document.getElementById('login-tab').addEventListener('click', () => {
-    document.getElementById('login-form').classList.remove('hidden');
-    document.getElementById('register-form').classList.add('hidden');
-    document.getElementById('login-tab').classList.add('bg-blue-500', 'text-white');
-    document.getElementById('register-tab').classList.remove('bg-blue-500', 'text-white');
-    document.getElementById('register-tab').classList.add('bg-gray-300', 'text-black');
-  });
+    // 切換登錄/註冊表單
+    document.getElementById('login-tab').addEventListener('click', () => {
+      document.getElementById('login-form').classList.remove('hidden');
+      document.getElementById('register-form').classList.add('hidden');
+      document.getElementById('login-tab').classList.add('bg-blue-500', 'text-white');
+      document.getElementById('register-tab').classList.remove('bg-blue-500', 'text-white');
+      document.getElementById('register-tab').classList.add('bg-gray-300', 'text-black');
+    });
 
-  document.getElementById('register-tab').addEventListener('click', () => {
-    document.getElementById('register-form').classList.remove('hidden');
-    document.getElementById('login-form').classList.add('hidden');
-    document.getElementById('register-tab').classList.add('bg-blue-500', 'text-white');
-    document.getElementById('login-tab').classList.remove('bg-blue-500', 'text-white');
-    document.getElementById('login-tab').classList.add('bg-gray-300', 'text-black');
-  });
+    document.getElementById('register-tab').addEventListener('click', () => {
+      document.getElementById('register-form').classList.remove('hidden');
+      document.getElementById('login-form').classList.add('hidden');
+      document.getElementById('register-tab').classList.add('bg-blue-500', 'text-white');
+      document.getElementById('login-tab').classList.remove('bg-blue-500', 'text-white');
+      document.getElementById('login-tab').classList.add('bg-gray-300', 'text-black');
+    });
 
-  // 處理註冊
-  function handleRegister() {
-    const username = document.getElementById('register-username').value;
-    const password = document.getElementById('register-password').value;
-    const phone = document.getElementById('register-phone').value;
+    // 處理註冊
+    function handleRegister() {
+      const username = document.getElementById('register-username').value;
+      const password = document.getElementById('register-password').value;
+      const phone = document.getElementById('register-phone').value;
 
-    if (username && password && phone) {
-      if (users.find(user => user.username === username)) {
-        alert('用戶名已存在！');
-        return;
+      if (username && password && phone) {
+        if (users.find(user => user.username === username)) {
+          alert('用戶名已存在！');
+          return;
+        }
+        users.push({ username, password, phone });
+        localStorage.setItem('users', JSON.stringify(users));
+        alert('註冊成功！請登錄。');
+        document.getElementById('login-tab').click();
+      } else {
+        alert('請填寫所有欄位！');
       }
-      users.push({ username, password, phone });
-      localStorage.setItem('users', JSON.stringify(users));
-      alert('註冊成功！請登錄。');
+    }
+
+    // 處理登錄
+    function handleLogin() {
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+
+      const user = users.find(user => user.username === username && user.password === password);
+      if (user) {
+        currentUser = user;
+        document.getElementById('auth-page').classList.add('hidden');
+        document.getElementById('home-page').classList.remove('hidden');
+        showHome();
+      } else {
+        alert('用戶名或密碼錯誤！');
+      }
+    }
+
+    // 處理預約
+    function handleAppointment() {
+      const department = document.getElementById('department').value;
+      const doctor = document.getElementById('doctor').value;
+      const date = document.getElementById('appointment-date').value;
+      const time = document.getElementById('appointment-time').value;
+
+      if (department && doctor && date && time) {
+        const appointment = { 
+          username: currentUser.username, 
+          department, 
+          doctor, 
+          date, 
+          time, 
+          status: '待審核',
+          callNumber: generateCallNumber()
+        };
+        appointments.push(appointment);
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+        alert(`預約成功！\n科別：${department}\n醫師：${doctor}\n日期：${date}\n時段：${time}\n叫號：${appointment.callNumber}`);
+        showRecords();
+        updateCurrentCall();
+      } else {
+        alert('請填寫所有欄位！');
+      }
+    }
+
+    // 生成簡單的叫號（模擬）
+    function generateCallNumber() {
+      const lastAppointment = appointments[appointments.length - 1];
+      if (!lastAppointment || !lastAppointment.callNumber) {
+        return 'A001';
+      }
+      const lastNumber = parseInt(lastAppointment.callNumber.slice(1)) + 1;
+      return `A${lastNumber.toString().padStart(3, '0')}`;
+    }
+
+    // 更新現在叫號
+    function updateCurrentCall() {
+      const pendingAppointments = appointments.filter(appointment => appointment.status === '待審核');
+      const currentCallDiv = document.getElementById('current-call');
+      if (pendingAppointments.length > 0) {
+        const current = pendingAppointments[0];
+        currentCallDiv.innerHTML = `
+          <p class="text-2xl font-bold text-green-500">${current.callNumber}</p>
+          <p>診間：診間 1</p>
+        `;
+      } else {
+        currentCallDiv.innerHTML = `
+          <p class="text-2xl font-bold text-green-500">無</p>
+          <p>診間：-</p>
+        `;
+      }
+    }
+
+    // 取消預約功能
+    function cancelAppointment(index) {
+      if (confirm('確定要取消此預約嗎？')) {
+        appointments[index].status = '已取消'; // 更新狀態為「已取消」
+        localStorage.setItem('appointments', JSON.stringify(appointments)); // 儲存更新
+        showRecords(); // 刷新掛號紀錄
+        updateCurrentCall(); // 刷新現在叫號
+        alert('預約已取消！');
+      }
+    }
+
+    // 處理登出
+    function handleLogout() {
+      currentUser = null;
+      document.getElementById('auth-page').classList.remove('hidden');
+      document.getElementById('home-page').classList.add('hidden');
       document.getElementById('login-tab').click();
-    } else {
-      alert('請填寫所有欄位！');
     }
-  }
 
-  // 處理登錄
-  function handleLogin() {
-    const username = document.getElementById('login-username').value;
-    const password = document.getElementById('login-password').value;
+    // 顯示首頁
+    function showHome() {
+      document.getElementById('home-content').classList.remove('hidden');
+      document.getElementById('appointment-section').classList.add('hidden');
+      document.getElementById('records-section').classList.add('hidden');
+      updateCurrentCall();
+    }
 
-    const user = users.find(user => user.username === username && user.password === password);
-    if (user) {
-      currentUser = user;
-      document.getElementById('auth-section').classList.add('hidden');
+    // 顯示預約表單
+    function showAppointment() {
+      document.getElementById('home-content').classList.add('hidden');
       document.getElementById('appointment-section').classList.remove('hidden');
-    } else {
-      alert('用戶名或密碼錯誤！');
+      document.getElementById('records-section').classList.add('hidden');
     }
-  }
 
-  // 處理預約
-  function handleAppointment() {
-    const department = document.getElementById('department').value;
-    const doctor = document.getElementById('doctor').value;
-    const date = document.getElementById('appointment-date').value;
-    const time = document.getElementById('appointment-time').value;
+    // 顯示掛號紀錄
+    function showRecords() {
+      document.getElementById('home-content').classList.add('hidden');
+      document.getElementById('appointment-section').classList.add('hidden');
+      document.getElementById('records-section').classList.remove('hidden');
 
-    if (department && doctor && date && time) {
-      alert(`預約成功！\n科別：${department}\n醫師：${doctor}\n日期：${date}\n時段：${time}`);
-    } else {
-      alert('請填寫所有欄位！');
+      // 更新掛號紀錄表格
+      const recordsBody = document.getElementById('records-body');
+      recordsBody.innerHTML = ''; // 清空表格內容
+
+      const userAppointments = appointments.filter(appointment => appointment.username === currentUser.username);
+      if (userAppointments.length === 0) {
+        recordsBody.innerHTML = '<tr><td colspan="7" class="border p-2 text-center">暫無掛號紀錄。</td></tr>';
+      } else {
+        userAppointments.forEach((appointment, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="border p-2">${appointment.username}</td>
+            <td class="border p-2">${appointment.department}</td>
+            <td class="border p-2">${appointment.doctor}</td>
+            <td class="border p-2">${appointment.date}</td>
+            <td class="border p-2">${appointment.time}</td>
+            <td class="border p-2">${appointment.status}</td>
+            <td class="border p-2">
+              ${appointment.status === '待審核' ? `<button onclick="cancelAppointment(${index})" class="px-2 py-1 bg-red-500 text-white rounded">取消</button>` : '-'}
+            </td>
+          `;
+          recordsBody.appendChild(row);
+        });
+      }
     }
-  }
-
-  // 處理登出
-  function handleLogout() {
-    currentUser = null;
-    document.getElementById('auth-section').classList.remove('hidden');
-    document.getElementById('appointment-section').classList.add('hidden');
-    document.getElementById('login-tab').click();
-  }
-</script>
+  </script>
 </body>
 </html>
