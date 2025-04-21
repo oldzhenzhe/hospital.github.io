@@ -114,3 +114,48 @@ main {
         flex: 1;
     }
 }
+
+/* 醫生班表樣式 */
+#doctor-schedule table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+#doctor-schedule th, #doctor-schedule td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+#doctor-schedule th {
+    background-color: #f4f4f4;
+}
+
+/* 個人介面基本資料樣式 */
+#personal-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+#personal-info li {
+    margin: 10px 0;
+}
+
+#personal-info button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#personal-info button:hover {
+    background-color: #0056b3;
+}
