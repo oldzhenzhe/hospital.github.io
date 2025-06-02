@@ -56,7 +56,7 @@
   </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body style="background: #f2f5ff" class="bg-gray-300 min-h-screen">
   <!-- 登錄/註冊頁面 -->
   <div id="auth-page" class="flex items-center justify-center min-h-screen p-4">
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
@@ -127,7 +127,7 @@
   <div id="home-page" class="hidden min-h-screen flex flex-col">
     <!-- 頂部橫幅 -->
     <div
-            class="text-white p-4 h-[80px] flex justify-between items-center shadow-lg"
+            class="text-white p-4 h-[80px] flex justify-between items-center shadow-md"
             style="background-color: #ffffff"
     >
       <h1 class="text-xl font-bold ml-8"
@@ -167,98 +167,102 @@
     </div>
 
     <!-- 主內容區域 -->
-    <div class="max-w-7xl mx-auto px-4 my-8">
-      <div class="flex flex-1">
-        <!-- 左側排班表區塊 -->
-        <div class="w-full md:w-1/3 bg-white p-4 m-4 rounded-lg border border-gray-200 h-[500px] overflow-auto">
-          <h2 class="text-xl font-bold mb-4">排班表</h2>
-          <div class="table-scroll">
-            <table class="w-full text-sm min-w-[300px]">
-              <thead>
-                <tr>
-                  <th class="border p-2">醫師</th>
-                  <th class="border p-2">日期</th>
-                  <th class="border p-2">時段</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="border p-2">張醫師</td>
-                  <td class="border p-2">2025-05-24</td>
-                  <td class="border p-2">上午</td>
-                </tr>
-                <tr>
-                  <td class="border p-2">李醫師</td>
-                  <td class="border p-2">2025-05-24</td>
-                  <td class="border p-2">下午</td>
-                </tr>
-              </tbody>
-            </table>
+    <div style="background-color: #fff; " class="max-w-7xl mx-auto px-4 my-8  rounded-lg p-2 shadow-md">
+      <div class="max-w-7xl mx-auto px-2 my-4">
+        <div class="flex flex-1">
+          <!-- 左側排班表區塊 -->
+          <div class="w-full md:w-1/3 bg-white p-4 m-4 rounded-lg border border-gray-300 h-[500px] overflow-auto">
+            <h2 class="text-xl font-bold mb-4">排班表</h2>
+            <div class="table-scroll">
+              <table class="w-full text-sm min-w-[300px]">
+                <thead>
+                  <tr>
+                    <th class="bg-gray-100 border p-2">醫師</th>
+                    <th class="bg-gray-100 border p-2">日期</th>
+                    <th class="bg-gray-100 border p-2">時段</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border p-2">張醫師</td>
+                    <td class="border p-2">2025-05-24</td>
+                    <td class="border p-2">上午</td>
+                  </tr>
+                  <tr>
+                    <td class="border p-2">李醫師</td>
+                    <td class="border p-2">2025-05-24</td>
+                    <td class="border p-2">下午</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
 
-        <!-- 中間與右側主要區塊 -->
-        <div class="flex-1 p-4">
-          <!-- 公告與廣告輪播區域 -->
-          <div class="mb-4">
-            <div class="carousel border" style="border-color: #6495ed; border-radius: 8px;">
-              <div class="carousel-inner" id="carousel-inner">
-                <div class="carousel-item bg-white rounded-lg shadow">
-                  <h3 class="text-lg font-bold mb-2">公告</h3>
-                  <ul class="list-disc pl-4">
-                    <li>2025-05-24：系統維護，預約功能暫停。</li>
-                    <li>2025-05-23：新增醫師班表查詢功能。</li>
-                  </ul>
-                </div>
-                <div class="carousel-item bg-white rounded-lg shadow">
-                  <h3 class="text-lg font-bold mb-2">廣告</h3>
-                  <p>歡迎體驗我們的兒科健康服務！</p>
-                  <p>特別優惠：首次預約享折扣。</p>
+          <!-- 中間與右側主要區塊 -->
+          <div class="flex-1 p-4">
+            <!-- 公告與廣告輪播區域 -->
+            <div class="mb-4">
+              <div class="carousel border" style="border-color: #6495ed; border-radius: 8px;">
+                <div class="carousel-inner" id="carousel-inner">
+                  <div class="carousel-item bg-white rounded-lg shadow">
+                    <h3 class="text-lg font-bold mb-2">公告</h3>
+                    <ul class="list-disc pl-4">
+                      <li>2025-05-24：系統維護，預約功能暫停。</li>
+                      <li>2025-05-23：新增醫師班表查詢功能。</li>
+                    </ul>
+                  </div>
+                  <div class="carousel-item bg-white rounded-lg shadow">
+                    <h3 class="text-lg font-bold mb-2">廣告</h3>
+                    <p>歡迎體驗我們的兒科健康服務！</p>
+                    <p>特別優惠：首次預約享折扣。</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- 診間與叫號進度 -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div class="bg-white p-4 rounded-lg border border-gray-200">
-              <h3 class="text-lg font-bold mb-2">診間 1</h3>
-              <p>醫師：張醫師</p>
-              <p>叫號進度：<span id="room1-call">A001</span>（剩餘名額：<span id="room1-quota">5</span>）</p>
+            <!-- 診間與叫號進度 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div class="bg-white p-4 rounded-lg border border-gray-300">
+                <h3 class="text-lg font-bold mb-2">診間 1</h3>
+                <p>醫師：張醫師</p>
+                <p>叫號進度：<span id="room1-call">A001</span>（剩餘名額：<span id="room1-quota">5</span>）</p>
+              </div>
+              <div class="bg-white p-4 rounded-lg border border-gray-300">
+                <h3 class="text-lg font-bold mb-2">診間 2</h3>
+                <p>醫師：李醫師</p>
+                <p>叫號進度：<span id="room2-call">A001</span>（剩餘名額：<span id="room2-quota">5</span>）</p>
+              </div>
             </div>
-            <div class="bg-white p-4 rounded-lg border border-gray-200">
-              <h3 class="text-lg font-bold mb-2">診間 2</h3>
-              <p>醫師：李醫師</p>
-              <p>叫號進度：<span id="room2-call">A001</span>（剩餘名額：<span id="room2-quota">5</span>）</p>
-            </div>
-          </div>
 
-          <!-- 預約與預約查詢按鈕 -->
-          <div class="flex space-x-4">
-            <button
-                    onclick="showAppointment()"
-                    class="w-1/2 text-white p-3 rounded text-lg"
-                    style="background-color: #6495ed"
-            >預約</button>
-            <button onclick="showRecords()" class="w-1/2 bg-gray-400 text-white p-3 rounded text-lg">預約查詢</button>
+            <!-- 預約與預約查詢按鈕 -->
+            <div class="flex space-x-4">
+              <button
+                      onclick="showAppointment()"
+                      class="w-1/2 text-white p-3 rounded text-lg"
+                      style="background-color: #6495ed"
+              >預約</button>
+              <button onclick="showRecords()" class="w-1/2 bg-gray-400 text-white p-3 rounded text-lg">預約查詢</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- 底部常見問題區塊 -->
-    <div class="bg-white p-4 m-4 rounded-lg border border-gray-200 w-full max-w-[1000px] mx-auto">
-      <h2 class="text-xl font-bold mb-4">常見問題</h2>
-      <ul class="list-disc pl-4">
-        <li><strong>如何預約？</strong> 點擊「預約」按鈕，選擇科別、醫師、日期和時段提交即可。</li>
-        <li><strong>取消預約怎麼辦？</strong> 在「掛號紀錄」中找到待審核預約，點擊「取消」按鈕。</li>
-        <li><strong>如何查看叫號進度？</strong> 首頁顯示各診間的叫號進度，更新為最新狀態。</li>
-      </ul>
+      <!-- 底部常見問題區塊 -->
+      <div class="bg-gray-100 p-4 m-4 rounded-lg border border-gray-300 w-full max-w-[1000px] mx-auto">
+        <h2 class="text-xl font-bold mb-4">常見問題</h2>
+        <ul class="list-disc pl-4">
+          <li><strong>如何預約？</strong> 點擊「預約」按鈕，選擇科別、醫師、日期和時段提交即可。</li>
+          <li><strong>取消預約怎麼辦？</strong> 在「掛號紀錄」中找到待審核預約，點擊「取消」按鈕。</li>
+          <li><strong>如何查看叫號進度？</strong> 首頁顯示各診間的叫號進度，更新為最新狀態。</li>
+        </ul>
+      </div>
     </div>
   </div>
 
   <!-- 預約頁面 -->
-  <div id="appointment-section" class="hidden">
-    <button onclick="goHome()" class="mb-4 mx-4 px-4 py-2 bg-gray-500 text-white rounded text-lg">返回首頁</button>
+
+  <div id="appointment-section"  class="hidden max-w-xl mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md mt-20">
+
+    <button onclick="goHome()" class="mb-4 mx-4 px-4 py-2 bg-gray-400 text-white rounded text-lg">返回首頁</button>
     <h1 class="text-2xl font-bold mb-4">預約掛號</h1>
     <div class="mb-4">
       <label class="block text-sm font-medium">選擇科別</label>
@@ -284,12 +288,13 @@
         <option value="下午">下午</option>
       </select>
     </div>
-    <button onclick="handleAppointment()" class="w-full bg-green-500 text-white p-3 rounded text-lg">提交預約</button>
+    <button onclick="handleAppointment()" style="background-color: #6495ed" class="w-full text-white p-3 rounded text-lg">提交預約</button>
+
   </div>
 
   <!-- 紀錄頁面 -->
-  <div id="records-section" class="hidden">
-    <button onclick="goHome()" class="mb-4 mx-4 px-4 py-2 bg-gray-500 text-white rounded text-lg">返回首頁</button>
+  <div id="records-section" class="hidden max-w-2xl mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md mt-20">
+    <button onclick="goHome()" class="mb-4 mx-4 px-4 py-2 bg-gray-400 text-white rounded text-lg">返回首頁</button>
     <h1 class="text-2xl font-bold mb-4">掛號紀錄</h1>
     <div class="table-scroll">
       <table id="records-table" class="w-full text-sm border-collapse min-w-[600px]">
@@ -328,11 +333,11 @@
   </div>
 
   <!-- 個人介面頁面 -->
-  <div id="profile-section" class="hidden">
-    <button onclick="goHome()" class="mb-4 mx-4 px-4 py-2 bg-gray-500 text-white rounded text-lg">返回首頁</button>
+  <div id="profile-section" style="max-width: 1750px" class="hidden mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md mt-20">
+    <button onclick="goHome()" class="mb-4 mx-4 px-4 py-2 bg-gray-400 text-white rounded text-lg">返回首頁</button>
     <h1 class="text-2xl font-bold mb-4">個人介面</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="bg-white p-4 rounded-lg shadow">
+      <div class="bg-white p-4 rounded-lg border border-gray-300">
         <h2 class="text-lg font-bold mb-2">基本資料</h2>
         <p><strong>用戶名：</strong><span id="profile-username"></span></p>
         <p><strong>電話：</strong><span id="profile-phone"></span></p>
@@ -341,17 +346,17 @@
         <p><strong>身高 (公分)：</strong><span id="profile-height"></span></p>
         <p><strong>體重 (公斤)：</strong><span id="profile-weight"></span></p>
         <p><strong>出生年月日：</strong><span id="profile-birthdate"></span></p>
-        <button onclick="showEditProfileForm()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded text-lg">編輯資料</button>
+        <button onclick="showEditProfileForm()" style="background-color: #6495ed" class="mt-2 px-4 py-2 text-white rounded text-lg">編輯資料</button>
       </div>
 
-      <div class="bg-white p-4 rounded-lg shadow">
+      <div class="bg-white p-4 rounded-lg border border-gray-300">
         <h2 class="text-lg font-bold mb-2">病例</h2>
         <div id="medical-records">
           <p>暫無病例記錄。</p>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-lg shadow">
+      <div class="bg-white p-4 rounded-lg border border-gray-300">
         <h2 class="text-lg font-bold mb-2">預約查詢</h2>
         <div class="table-scroll">
           <table id="appointment-query-table" class="w-full text-sm border-collapse min-w-[500px]">
@@ -369,13 +374,13 @@
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-lg shadow">
+      <div class="bg-white p-4 rounded-lg border border-gray-300">
         <h2 class="text-lg font-bold mb-2">設定</h2>
         <div class="mb-4">
           <label class="block text-sm font-medium">更改密碼</label>
           <input type="password" id="new-password" class="w-full p-3 border rounded text-lg" placeholder="輸入新密碼">
         </div>
-        <button onclick="changePassword()" class="px-4 py-2 bg-blue-500 text-white rounded text-lg">儲存新密碼</button>
+        <button onclick="changePassword()" style="background-color: #6495ed;" class="px-4 py-2 text-white rounded text-lg">儲存新密碼</button>
       </div>
     </div>
   </div>
@@ -662,7 +667,7 @@
             <td class="border p-2">${appointment.time}</td>
             <td class="border p-2">${appointment.status}</td>
             <td class="border p-2">
-              ${appointment.status === '待審核' ? `<button onclick="cancelAppointment(${index})" class="px-2 py-1 bg-red-500 text-white rounded text-lg">取消</button>` : '-'}
+              ${appointment.status === '待審核' ? `<button onclick="cancelAppointment(${index})" style="background-color: #6495ed" class="px-2 py-1 bg-red-500 text-white rounded text-lg">取消</button>` : '-'}
             </td>
           `;
           recordsBody.appendChild(row);
@@ -759,7 +764,7 @@
               <input type="date" id="edit-birthdate" class="w-full p-3 border rounded text-lg" value="${currentUser.birthdate}">
             </div>
             <div class="flex justify-end space-x-2">
-              <button onclick="saveProfileChanges()" class="px-4 py-2 bg-blue-500 text-white rounded text-lg">儲存</button>
+              <button onclick="saveProfileChanges()" style="background-color: #6495ed;" class="px-4 py-2 text-white rounded text-lg">儲存</button>
               <button onclick="closeEditProfileForm()" class="px-4 py-2 bg-gray-300 text-black rounded text-lg">取消</button>
             </div>
           </div>
